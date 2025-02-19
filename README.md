@@ -1,46 +1,85 @@
-<!doctype html>
-<html>
-<head>
-  <title>MAGIC 8 BALL</title>
+🛠️ Step 1: Get Your API Key
+Before we start coding, you'll need access to the Groq API. Here’s how to get your key:
 
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700|Montserrat:400,700' rel='stylesheet' type='text/css'>
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js'></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+1️⃣ Go to Groq’s official website and create an account.
+2️⃣ Navigate to your dashboard and generate an API key.
+3️⃣ Copy the key (keep it secret 🧢) and paste it into the code below.
 
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+🖥️ Step 2: Build Your AI Chatbot
+Replace 'YOUR_API_KEY_HERE' with your actual Groq API key, then run this script:
 
-  <body>
-  <div class="page">
+const fetch = require("node-fetch");
 
-    <header>
-      <h1>MAGIC <span>8</span> BALL</h1>
-    </header>
+const API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
+const API_URL = "https://api.groq.com/v1/chat/completions";
 
-    <div class="ball" style="position:relative; width:80%" >
+async function getAIResponse(userInput) {
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "llama3-8b-8192",
+                messages: [{ role: "user", content: userInput }]
+            })
+        });
+        
+        const data = await response.json();
+        return data.choices[0].message.content;
+    } catch (error) {
+        return `Error: ${error.message}`;
+    }
+}
 
-      <p id="answer" class="answer">
-        THIS IS WHERE THE ANSWER GOES
-      </p>
+(async function main() {
+    const readline = require("readline").createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-       <img id="8ball" src="https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2016/09/magic8ballQuestion.png" alt="Magic 8 Ball">
+    console.log("Welcome to your AI chatbot! Type 'exit' to quit.");
 
-    </div>
+    while (true) {
+        await new Promise(resolve => {
+            readline.question("\nYou: ", async (userInput) => {
+                if (userInput.toLowerCase() === "exit") {
+                    console.log("\nGoodbye! 👋");
+                    readline.close();
+                    process.exit(0);
+                }
+                const response = await getAIResponse(userInput);
+                console.log("AI:", response);
+                resolve();
+            });
+        });
+    }
+})();
+🛠️ Step 3: Run Your Chatbot!
+Open your terminal or command prompt.
+Run node chatbot.js and start chatting with your AI assistant!
+Type "exit" to stop the conversation.
+🔧 Extra Challenges (Level Up Your Bot!)
+Want to supercharge your chatbot? Try these upgrades:
 
-    <br><br>
+✨ Chat History – Save all messages to a .txt file.
+✨ Multi-Turn Conversations – Make the AI remember context!
+✨ Model Selection – Let users pick different AI models.
+✨ Custom Prompts – Allow users to change the chatbot’s personality!
 
-    <div class="button" style="position:relative; width:80%">
-      <button id="questionButton">ASK ME ANYTHING </button>
-    </div>
+📌 Helpful Resources
+🔗 Groq API Documentation
+💻 Node.js Documentation
 
-    <footer>
-      <p>&copy; Skillcrush 2016</p>
-    </footer>
+🎯 Grading Criteria
+Task	Points
+Successfully connects to Groq API	✅ 30
+Handles errors properly	✅ 20
+Console-based chatbot works smoothly	✅ 20
+Implements additional features	✅ 30
+🎉 Ready? Let's Build AI! 🚀
+This project is an amazing opportunity to work with AI-powered APIs and create something cool. Whether you want to impress your peers, add it to your portfolio, or just have fun, this project is for you!
 
-
-  <script type="text/javascript" src="script.js"></script>
-
-  </div>
-  </body>
-
-</html>
+Happy Coding! 💻🔥
