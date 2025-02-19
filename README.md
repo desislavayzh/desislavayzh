@@ -6,11 +6,11 @@ Before we start coding, you'll need access to the Groq API. Here’s how to get 
 3️⃣ Copy the key (keep it secret 🧢) and paste it into the code below.
 
 🖥️ Step 2: Build Your AI Chatbot
-Replace 'YOUR_API_KEY_HERE' with your actual Groq API key, then run this script:
+Replace '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' with your actual Groq API key, then run this script:
 
 const fetch = require("node-fetch");
 
-const API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
+const API_KEY = "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"; // Replace with your actual API key
 const API_URL = "https://api.groq.com/v1/chat/completions";
 
 async function getAIResponse(userInput) {
